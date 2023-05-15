@@ -8,7 +8,7 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "docs": "typedoc --out docs ./src/**/*/interface/**.ts ./src/utils/**.ts",
+    "docs": "typedoc --out docs ./src/components/BaseForm/interface/index.ts ./src/components/BaseTable/interface/index.ts ./src/components/BaseButtons/interface/index.ts",
     "lib": "vue-cli-service build --target lib ./packages/index.ts --name ease-form --dest lib"
   },
   "dependencies": {
