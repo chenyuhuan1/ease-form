@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-05-30 14:29:12
- * @LastEditTime: 2023-05-15 10:13:09
+ * @LastEditTime: 2023-05-23 15:53:17
  * @LastEditors: 陈宇环
  * @Description: form表单相关接口定义
  */
@@ -25,11 +25,11 @@ export interface formConfig {
   /** 是否需要搜索按钮 */
   isSearch?: boolean
   /** 搜索按钮点击触发函数 */
-  searchFn?: () => any
+  searchFn?: (form: any) => any
   /** 是否需要导出按钮 */
   isExport?: boolean
   /** 搜索按钮点击触发函数 */
-  exportFn?: () => any
+  exportFn?: (form: any) => any
   /** 是否需要重置按钮 */
   isReset?: boolean
   /** 搜索按钮点击触发函数 */
