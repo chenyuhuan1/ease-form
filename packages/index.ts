@@ -1,19 +1,33 @@
-import BaseForm from '../src/components/BaseForm/index'
-import BaseInput from '../src/components/BaseForm/components/BaseInput'
-import BaseNumber from '../src/components/BaseForm/components/BaseNumber'
-import BaseSelect from '../src/components/BaseForm/components/BaseSelect'
-import BaseRadio from '../src/components/BaseForm/components/BaseRadio'
-import BaseCheckbox from '../src/components/BaseForm/components/BaseCheckbox'
-import BaseDate from '../src/components/BaseForm/components/BaseDate'
-import BaseDateRange from '../src/components/BaseForm/components/BaseDateRange'
-import BaseNumberRange from '../src/components/BaseForm/components/BaseNumberRange'
-import BaseCascader from '../src/components/BaseForm/components/BaseCascader'
-import BaseSwitch from '../src/components/BaseForm/components/BaseSwitch'
-import BaseText from '../src/components/BaseForm/components/BaseText'
-import BaseTable from '../src/components/BaseTable/index'
-import BaseButtons from '../src/components/BaseButtons/index'
-const components = [BaseForm, BaseTable, BaseButtons, BaseInput, BaseNumber, BaseSelect, BaseRadio, BaseCheckbox, BaseDate, BaseDateRange, BaseNumberRange, BaseCascader, BaseSwitch, BaseText] // 组件集合
-// const components = [BaseForm, BaseInput] // 组件集合
+import easeForm from './components/easeForm'
+import easeCascader from './components/easeCascader'
+import easeCheckbox from './components/easeCheckbox'
+import easeDate from './components/easeDate'
+import easeDateRange from './components/easeDateRange'
+import easeInput from './components/easeInput'
+import easeNumber from './components/easeNumber'
+import easeNumberRange from './components/easeNumberRange'
+import easeRadio from './components/easeRadio'
+import easeSelect from './components/easeSelect'
+import easeSwitch from './components/easeSwitch'
+import easeText from './components/easeText'
+import easeTable from './components/easeTable'
+import easeButtons from './components/easeButtons'
+const components = [
+  easeForm,
+  easeCascader,
+  easeCheckbox,
+  easeDate,
+  easeDateRange,
+  easeInput,
+  easeNumber,
+  easeNumberRange,
+  easeRadio,
+  easeSelect,
+  easeSwitch,
+  easeText,
+  easeTable,
+  easeButtons,
+] // 组件集合
 const install = function(Vue) {
   // 注册所有的组件
   components.forEach((item) => {
@@ -24,20 +38,22 @@ const install = function(Vue) {
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
-export default { install } // 必须要有导出
-export {
-  BaseForm as easeForm,
-  BaseTable as easeTable,
-  BaseInput as easeInput,
-  BaseNumber as easeNumber,
-  BaseSelect as aseSelect,
-  BaseRadio as easeRadio,
-  BaseCheckbox as easeCheckbox,
-  BaseDate as easeDate,
-  BaseDateRange as easeDateRange,
-  BaseNumberRange as easeNumberRange,
-  BaseCascader as easeCascader,
-  BaseSwitch as easeSwitch,
-  BaseText as easeText,
-  BaseButtons as easeButtons,
-}
+// export default {
+//   install,
+//   easeForm,
+//   easeCascader,
+//   easeCheckbox,
+//   easeDate,
+//   easeDateRange,
+//   easeInput,
+//   easeNumber,
+//   easeNumberRange,
+//   easeRadio,
+//   easeSelect,
+//   easeSwitch,
+//   easeText,
+//   easeTable,
+//   easeButtons,
+// } // 必须要有导出
+
+export default install
