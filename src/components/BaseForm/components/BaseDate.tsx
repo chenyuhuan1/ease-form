@@ -1,17 +1,18 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-12-20 11:33:03
- * @LastEditTime: 2023-04-13 14:28:59
+ * @LastEditTime: 2023-06-13 10:12:47
  * @LastEditors: 陈宇环
  * @Description:
  */
 import { defineComponent, watch, ref, PropType } from 'vue'
 import { dateProps } from '../interface/index'
 import styles from '@/components/BaseForm/style.module.scss'
-
+import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
+import dayjs, { Dayjs } from 'dayjs'
 
 export default defineComponent({
-  name: 'EaseDate',
+  name: 'BsDate',
   props: {
     modelValue: {
       type: String,
@@ -26,26 +27,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change'],
   setup(props: any, { emit }) {
-    
-    const cloneModelValue = ref<any>('')
-    watch(() => props.modelValue, () => {
-      cloneModelValue.value = props.modelValue
-    }, { immediate: true })
-
-    // 解决datetime类型，不点击确认按钮无法触发change事件bug
-    watch(() => cloneModelValue.value, () => {
-      updateValue(cloneModelValue.value)
-    })
-
-    function updateValue(value: number | string) {
-      emit('update:modelValue', value)
-      emit('change', {
-        props: props.config.prop,
-        value,
-      })
-    }
-
-    function getFormat(type: string, formatType: 'format' | 'valueFormat'): string | null {
+    function getFormat(type: string, formatType: 'format' | 'valueFormat'): string {
       if (type === 'date') {
         return 'YYYY-MM-DD'
       }
@@ -59,7 +41,7 @@ export default defineComponent({
         if (formatType === 'format') {
           return '第 ww 周'
         } else {
-          return null
+          return ''
         }
       }
       if (type === 'datetime') {
@@ -67,18 +49,44 @@ export default defineComponent({
       }
       return 'YYYY-MM-DD'
     }
+    const cloneModelValue = ref<Dayjs>(dayjs())
+    watch(() => props.modelValue, () => {
+      cloneModelValue.value = props.modelValue
+    }, { immediate: true })
+
+    // 解决datetime类型，不点击确认按钮无法触发change事件bug
+    watch(() => cloneModelValue.value, () => {
+      updateValue(cloneModelValue.value)
+    })
+
+    function updateValue(value: Dayjs) {
+      console.log(value, 'value')
+      emit('update:modelValue', value)
+      emit('change', {
+        props: props.config.prop,
+        value,
+      })
+    }
 
     return () => {
+      const dynamicComponent = new CustomDynamicComponent()
+      const { dynamicDatePicker } = dynamicComponent
       return <div class={['BaseDate', styles.width100]}>
-        <el-date-picker
+        <dynamicDatePicker
           class={['date', styles.width100]}
           v-model={cloneModelValue.value}
           placeholder={props.config.placeholder || `请选择${props.config.label}`}
           disabled={!!props.config.disabled}
-          type={props.config.type || 'date'}
           format={props.config.format || getFormat(props.config.type, 'format')}
           value-format={props.config.valueFormat || getFormat(props.config.type, 'valueFormat')}
-          clearable={props.config.clearable !== false}
+
+          /** ant-design-vue && ele 统一封装 - start */
+          type={props.config.type || 'date'}   /** ele 专有属性*/
+          picker={props.config.type || 'date'}   /** ant-design-vue专有属性*/
+          clearable={props.config.clearable !== false} // ele 特有属性
+          allowClear={props.config.allowClear ?? props.config.clearable !== false} // ant-design-vue特有属性
+          /** ant-design-vue && ele 统一封装 - end */
+
           {...props.config.nativeProps}
           onChange={updateValue}
         />

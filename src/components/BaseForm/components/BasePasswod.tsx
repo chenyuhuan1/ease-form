@@ -1,25 +1,24 @@
 /*
  * @Author: 陈宇环
- * @Date: 2022-12-20 14:37:53
- * @LastEditTime: 2023-06-06 11:34:24
+ * @Date: 2023-03-24 14:01:06
+ * @LastEditTime: 2023-06-06 11:33:56
  * @LastEditors: 陈宇环
  * @Description:
  */
 import { defineComponent, PropType } from 'vue'
 import styles from '@/components/BaseForm/style.module.scss'
-import { inputProps } from '../interface/index'
+import { passwordProps } from '../interface/index'
 import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
-
 export default defineComponent({
-  name: 'BsInput',
+  name: 'BsPasswod',
   props: {
     modelValue: {
       type: [String, Number],
       default: '',
     },
     config: {
-      type: Object as PropType<inputProps>,
+      type: Object as PropType<passwordProps>,
       default() {
         return {}
       },
@@ -27,10 +26,10 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change'],
   setup(props: any, { emit }) {
-    const { dynamicInput } = new CustomDynamicComponent()
+    const { dynamicPassword } = new CustomDynamicComponent()
     function updateValue(value: number | string | InputEvent) {
       let cloneValue = value
-      
+
       // ant-Design-vue 无input事件，value获取到的是原生input事件的e
       if (window.uiLanguage === CustomDynamicComponent.antLanguage) {
         cloneValue = ((value as InputEvent).target as HTMLInputElement).value
@@ -43,17 +42,20 @@ export default defineComponent({
       })
     }
     return () => {
-      return <div class={['baseInput', styles.width100]}>
-        <dynamicInput
-          class="input"
-          type='text'
+      return <div class={['basePassword', styles.width100]}>
+        <dynamicPassword
+          class="password"
+          type='password'
           model-value={props.modelValue}
           placeholder={props.config.placeholder || `请输入${props.config.label}`}
           disabled={!!props.config.disabled}
+          autocomplete="on"
 
           /** ant-design-vue && ele 统一封装 - start */
-          clearable={props.config.clearable !== false}  // ele 特有属性
+          clearable={props.config.clearable !== false}  // ele 特有属性 - 清除按钮
           allowClear={props.config.allowClear ?? props.config.clearable !== false} // ant-design-vue特有属性
+          show-password={props.config.showPassword} // ele 特有属性 - 是否显隐密码切换按钮
+          visibilityToggle={props.config.showPassword} // ant-design-vue特有属性 - 是否显隐密码切换按钮
           /** ant-design-vue && ele 统一封装 - end */
 
           {...props.config.nativeProps}

@@ -2,6 +2,8 @@
 import { columnsBase } from '../interface/index'
 
 import BaseInput from './BaseInput'
+import BasePasswod from './BasePasswod'
+import BaseTextarea from './BaseTextarea'
 import BaseNumber  from './BaseNumber'
 import BaseSelect from './BaseSelect'
 import BaseRadio from './BaseRadio'
@@ -17,8 +19,11 @@ import BaseText from './BaseText'
 export const getComponentByType = (item: columnsBase): any => {
   switch (item.type) {
     case 'input':
-    case 'textarea':
       return BaseInput
+    case 'textarea':
+      return BaseTextarea
+    case 'password':
+      return BasePasswod
     case 'number':
       return BaseNumber
     case 'select':

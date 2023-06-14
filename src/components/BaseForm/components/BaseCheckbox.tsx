@@ -1,18 +1,19 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-12-20 09:56:21
- * @LastEditTime: 2023-05-08 16:45:44
- * @LastEditors: tanpeng
+ * @LastEditTime: 2023-06-14 11:03:40
+ * @LastEditors: 陈宇环
  * @Description:
  */
 import { defineComponent, watch, ref, PropType } from 'vue'
 import * as utils from '@/utils/common'
 import { checkboxProps } from '../interface/index'
 import styles from '@/components/BaseForm/style.module.scss'
+import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
 
 export default defineComponent({
-  name: 'EaseCheckbox',
+  name: 'BsCheckbox',
   props: {
     modelValue: {
       type: Array,
@@ -44,7 +45,6 @@ export default defineComponent({
           options.value = utils.getDicByKey(props.config.options.key)
         }
       }
-
       // 兼容改变
       options.value = options.value.map((v: any) => {
         return {
@@ -57,7 +57,7 @@ export default defineComponent({
     }, { immediate: true, deep: true })
 
 
-    function updateValue(value: any): any {
+    function updateValue(value: any): void {
       emit('update:modelValue', value)
       emit('change', {
         props: props.config.prop,
@@ -67,23 +67,28 @@ export default defineComponent({
     }
 
     return () => {
-      const componentInstance = props.config.showType === 'button' ? <el-checkbox-button/> : <el-checkbox/>
+      const dynamicComponent = new CustomDynamicComponent()
+      const { dynamicCheckBoxGroup, dynamicCheckBox, dynamicCheckBoxButton } = dynamicComponent
+      // dynamicCheckBoxButton 只有element-plus有这个组件
+      const componentInstance = props.config.showType === 'button' && window.uiLanguage === CustomDynamicComponent.eleLanguage ? dynamicCheckBoxButton : dynamicCheckBox
       return <div class={['BaseCheckbox', styles.width100]}>
-        <el-checkbox-group
+        <dynamicCheckBoxGroup
           loading={optionsLoading.value}
           class="checkbox"
           model-value={props.modelValue}
           placeholder={props.config.placeholder || `请选择${props.config.label}`}
           disabled={!!props.config.disabled}
           clearable={props.config.clearable !== false}
+          options={options.value/** 只有ant-design-vue使用该属性 */}
           {...props.config.nativeProps}
           onChange={updateValue}
         >
           {
-            options.value.map((item: checkboxProps, index: number) => {
-              return <componentInstance
-                key={(item as {value?: boolean}).value + '_' + index}
-                label={(item as {value?: boolean}).value }
+            /** 只有element-plus使用以下逻辑 */
+            window.uiLanguage === CustomDynamicComponent.eleLanguage && options.value.map((item: any, index: number) => {
+              return  <componentInstance
+                key={item.value + '_' + index}
+                label={item.value}
                 {...props.config.nativeProps}
                 v-slots={props.config.format ? {
                   default: () => {
@@ -95,7 +100,7 @@ export default defineComponent({
               </componentInstance>
             })
           }
-        </el-checkbox-group>
+        </dynamicCheckBoxGroup>
       </div>
     }
   },

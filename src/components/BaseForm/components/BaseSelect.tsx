@@ -1,18 +1,18 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-12-15 17:30:23
- * @LastEditTime: 2023-05-08 16:46:41
- * @LastEditors: tanpeng
+ * @LastEditTime: 2023-06-13 10:08:31
+ * @LastEditors: 陈宇环
  * @Description:
  */
 import { defineComponent, watch, ref, PropType } from 'vue'
 import * as utils from '@/utils/common'
 import { selectProps } from '../interface/index'
 import styles from '@/components/BaseForm/style.module.scss'
-
+import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
 export default defineComponent({
-  name: 'EaseSelect',
+  name: 'BsSelect',
   props: {
     modelValue: {
       type: [Number, String, Array, Object, Boolean],
@@ -27,6 +27,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change', 'setProp2'],
   setup(props: any, { emit }) {
+    const { dynamicSelect, dynamicSelectOption } = new CustomDynamicComponent()
     const options = ref<any>([])
     const optionsLoading = ref<boolean>(false)
     watch(() => props.config.options, async() => {
@@ -42,7 +43,6 @@ export default defineComponent({
         }
       }
 
-      // 兼容改变
       options.value = options.value.map((v: any) => {
         return {
           ...v,
@@ -107,29 +107,48 @@ export default defineComponent({
       optionsLoading.value = false
     }
 
+    const defaultFilterOption = (inputValue:string, option:any) => {
+      return option?.label?.indexOf(inputValue) >= 0
+    }
+
     return () => {
       return <div class={['BaseSelect', styles.width100]}>
-        <el-select
+        <dynamicSelect
           loading={optionsLoading.value}
           class={['select', styles.width100]}
           model-value={props.modelValue}
-          filterable={props.config.filterable !== false}
-          remote={props.config.remote === true}
-          remote-method={remoteMethod}
           placeholder={props.config.placeholder || `请选择${props.config.label}`}
           disabled={!!props.config.disabled}
-          clearable={props.config.clearable !== false}
-          multiple={props.config.multiple === true}
+
+          /** ant-design-vue && ele 统一封装 - start */
+          clearable={props.config.clearable !== false} // ele 特有属性
+          allowClear={props.config.allowClear ?? props.config.clearable !== false} // ant-design-vue特有属性
+          filterable={props.config.filterable !== false}  // ele 特有属性
+          showSearch={props.config.showSearch ?? props.config.filterable !== false}  // ant-design-vue特有属性
+          multiple={props.config.multiple === true}  // ele 特有属性
+          mode={props.config.mode ? props.config.mode : props.config.multiple === true ? 'multiple' : undefined}  // ant-design-vue特有属性
+          /** ant-design-vue && ele 统一封装 - end */
+
+          /** ant-design-vue 特有属性-start */
+          filterOption={props?.config?.remoteMethod ? false : props.config.filterOption ?? defaultFilterOption} // ant-design-vue特有属性  默认添加按label模糊查找
+          onSearch={remoteMethod}  // 必须将filterOption设置成false
+          /** ant-design-vue 特有属性-start */
+
+          /** ele 特有属性-start */
+          remote={props.config.remote === true}
+          remote-method={remoteMethod}
           collapse-tags={props.config.collapseTags !== false}
           collapse-tags-tooltip={props.config.collapseTagsTooltip !== false}
           multiple-limit={props.config.multipleLimit ? props.config.multipleLimit : 0}
           reserveKeyword={props.config.reserveKeyword === true}
+          /** ele 特有属性-end */
+          
           {...props.config.nativeProps}
           onChange={updateValue}
         >
           {
             options.value.map((item: any) => {
-              return <el-option
+              return <dynamicSelectOption
                 key={item.value}
                 label={item.label}
                 value={item.value}
@@ -140,10 +159,11 @@ export default defineComponent({
                   },
                 } : {}}
               >
-              </el-option>
+                {item.label}
+              </dynamicSelectOption>
             })
           }
-        </el-select>
+        </dynamicSelect>
       </div>
     }
   },

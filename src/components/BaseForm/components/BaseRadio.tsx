@@ -1,22 +1,22 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-12-18 13:40:22
- * @LastEditTime: 2023-05-08 16:47:44
- * @LastEditors: tanpeng
+ * @LastEditTime: 2023-06-14 10:32:48
+ * @LastEditors: 陈宇环
  * @Description:
  */
 import { defineComponent, watch, ref, PropType } from 'vue'
 import * as utils from '@/utils/common'
 import { radioProps } from '../interface/index'
 import styles from '@/components/BaseForm/style.module.scss'
-
+import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
 export default defineComponent({
-  name: 'EaseRadio',
+  name: 'BsRadio',
   props: {
     modelValue: {
       type: [Number, String, Boolean],
-      default: '',
+      default: undefined,
     },
     config: {
       type: Object as PropType<radioProps>,
@@ -27,7 +27,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change', 'setProp2'],
   setup(props: any, { emit }) {
-    
+    const { dynamicRadio, dynamicRadioGroup, dynamicRadioButton } = new CustomDynamicComponent()
     const options = ref<any>([])
     const optionsLoading = ref<boolean>(false)
     watch(() => props.config.options, async() => {
@@ -44,7 +44,6 @@ export default defineComponent({
         }
       }
 
-      // 兼容改变
       options.value = options.value.map((v: any) => {
         return {
           ...v,
@@ -52,40 +51,46 @@ export default defineComponent({
           value: v[props.config.valueKey || 'value'],
         }
       })
-
+      
     }, { immediate: true, deep: true })
 
-    function updateValue(value: number | string | boolean): any {
-      emit('update:modelValue', value)
+    function updateValue(value: number | string | boolean | Event): any {
+      let cloneValue = value
+
+      // ant-Design-vue change返回的是 e:Event 对象
+      if (window.uiLanguage === CustomDynamicComponent.antLanguage) {
+        cloneValue = ((value as Event).target as HTMLInputElement).value
+      }
+
+      emit('update:modelValue', cloneValue)
       emit('change', {
         props: props.config.prop,
-        value,
+        value: cloneValue,
         options,
       })
+
     }
 
-
     return () => {
-      const componentInstance = props.config.showType === 'button' ? <el-radio-button /> : <el-radio/>
+      const componentInstance = props.config.showType === 'button'  && window.uiLanguage === CustomDynamicComponent.eleLanguage  ? dynamicRadioButton : dynamicRadio
       return <div class={['BaseRadio', styles.width100]}>
-        <el-radio-group
+        <dynamicRadioGroup
           loading={optionsLoading.value}
           class="radio"
           model-value={props.modelValue}
-          placeholder={props.config.placeholder || `请选择${props.config.label}`}
+          value={props.modelValue}  /** ant-design-vue特有属性 */
           disabled={!!props.config.disabled}
-          clearable={props.config.clearable !== false}
           {...props.config.nativeProps}
           onChange={updateValue}
         >
           {
-            options.value.map((item: radioProps, index: number) => {
+            options.value.map((item: any, index: number) => {
               return  <componentInstance
-                is={props.config.showType === 'button' ? <el-eadio-button /> : <el-radio/>}
-                key={(item as {value?: boolean}).value + '_' + index}
-                label={(item as {value?: boolean}).value}
+                key={item.value + '_' + index}
+                label={item.value}
+                value={item.value}
                 {...props.config.nativeProps}
-                v-slots={props.config.format ? {
+                v-slots={props.config.format ? {  /** ele 特有属性 */
                   default: () => {
                     return props.config.format(item)
                   },
@@ -95,7 +100,7 @@ export default defineComponent({
               </componentInstance>
             })
           }
-        </el-radio-group>
+        </dynamicRadioGroup>
       </div>
     }
   },

@@ -1,10 +1,11 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-05-30 14:29:12
- * @LastEditTime: 2023-05-23 15:53:17
+ * @LastEditTime: 2023-06-13 11:29:37
  * @LastEditors: 陈宇环
  * @Description: form表单相关接口定义
  */
+import { rulesIn } from '@/utils/validator'
 
 /** 表单组件config配置接口 */
 export interface formConfig {
@@ -48,6 +49,10 @@ export interface formConfig {
 export type columnsBase =
   /** 输入框控件 */
   | inputProps
+  /** 密码输入控件 */
+  | passwordProps
+  /** 多行文本输入控件 */
+  | textareaProps
   /** 下拉选择控件 */
   | selectProps
   /** 单选控件 */
@@ -98,6 +103,8 @@ interface defaultProps {
   prop2?: string
   /** 附加检验规则 */
   rules?: any[]
+  /** 内置校验规则 - @/utils/validator.ts */
+  inlayRules?: inlayRuleType[],
   /** change事件触发函数 */
   change?: (e: any) => void
   /** ui框架原生属性 */
@@ -126,16 +133,33 @@ export type format = (item: any) => any
 
 /** 输入框控件props */
 export interface inputProps extends defaultProps {
-  /** 这里还能添加很多类型 参考：https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types */
-  type: 'input' | 'textarea' | 'password'
+  type: 'input'
+  /** 最大输出长度 */
+  minlength?: number
+  /** 最小输出长度 */
+  maxlength?: number
+}
+
+export interface passwordProps extends defaultProps {
+  type: 'password'
   /** 是否需要密码*号 显示隐藏开关 */
   showPassword?: boolean
   /** 最大输出长度 */
   minlength?: number
   /** 最小输出长度 */
   maxlength?: number
-  /** textarea 行数 */
-  rows?: number
+}
+
+export interface textareaProps extends defaultProps {
+  type: 'textarea'
+  /** 最大输出长度 */
+  minlength?: number
+  /** 最小输出长度 */
+  maxlength?: number
+  /** element-ui 行数 */
+  rows?: number,
+  /** ant-design-vue 行数 */
+  autoSize?: number,
 }
 
 /** 数字输入控件props **/
@@ -295,6 +319,8 @@ export interface renderProps extends defaultProps {
   /** 自定义组件render函数 */
   render: () => any
 }
+
+export type inlayRuleType = { validatorName: keyof rulesIn, message?: string, trigger?: string }
 
 // 实例是否是columnsOtherBase类型
 // export const isColumnsOtherBase = (item: columnsBase): item is columnsOtherBase => {

@@ -1,17 +1,17 @@
 /*
  * @Author: 陈宇环
  * @Date: 2023-01-03 15:19:17
- * @LastEditTime: 2023-05-08 11:50:34
- * @LastEditors: tanpeng
+ * @LastEditTime: 2023-06-06 11:37:35
+ * @LastEditors: 陈宇环
  * @Description:
  */
 import { defineComponent, PropType } from 'vue'
 import styles from '@/components/BaseForm/style.module.scss'
 import { numberProps } from '../interface/index'
-
+import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
 export default defineComponent({
-  name: 'EaseNumber',
+  name: 'BsNumber',
   props: {
     modelValue: {
       type: [String, Number],
@@ -26,7 +26,8 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change'],
   setup(props: any, { emit }) {
-    function updateValue(value: number | string) {
+    const { dynamicNumber } = new CustomDynamicComponent()
+    function updateValue(value: number | string | InputEvent) {
       emit('update:modelValue', value)
       emit('change', {
         props: props.config.prop,
@@ -35,14 +36,13 @@ export default defineComponent({
     }
     return () => {
       return <div class={['baseNumber', styles.width100, styles.BaseNumber]}>
-        <el-input-number
+        <dynamicNumber
+          style={{ width: '100%' }}
           class={{ number: true, textLeft: props.config.controls !== true }}
           model-value={props.modelValue}
           placeholder={props.config.placeholder || `请输入${props.config.label}`}
           disabled={!!props.config.disabled}
           controls={props.config.controls === true}
-          type={props.config.type || 'text'}
-          value-on-clear={null}
           {...props.config.nativeProps}
           onInput={updateValue}
         />
