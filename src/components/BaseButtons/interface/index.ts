@@ -2,8 +2,12 @@ import { ButtonType } from 'element-plus'
 
 /** 按钮配置对象定义 */
 export interface buttonFace {
+  /** 是否展示 */
+  show?: boolean,
   /** 按钮文案 */
   text?: string,
+  /** 是否禁用 */
+  disabled?: boolean,
   /** 按钮type */
   type?: ButtonType,
   /** 按钮大小 */

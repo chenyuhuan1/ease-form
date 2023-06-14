@@ -1,14 +1,16 @@
 /*
  * @Author: 陈宇环
  * @Date: 2023-01-03 10:56:12
- * @LastEditTime: 2023-05-15 10:13:42
+ * @LastEditTime: 2023-05-15 11:19:50
  * @LastEditors: 陈宇环
  * @Description: table+paging 接口定义
  */
 
 /** table配置参数 */
 export interface tableConfigFace {
-  /** 是否需要边框 */
+  /** 是否需要边框
+   * @defaultValue false
+   */
   border?: boolean,
   /** 是否斑马纹 */
   stripe?: boolean,
@@ -91,7 +93,7 @@ export interface theadItemConfig {
 export type loadDataFace = ({ pageIndex, pageSize }: { pageIndex: number, pageSize: number }) => Promise<resultInt>
 
 /** table数据获取函数返回值校验 */
-export interface resultInt {
+export type resultInt = {
   /** 接口返回状态 */
   success: boolean,
   /** table数据列表 */

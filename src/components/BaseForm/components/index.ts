@@ -1,17 +1,17 @@
-import { defineAsyncComponent } from 'vue'
+// import { defineAsyncComponent } from 'vue'
 import { columnsBase } from '../interface/index'
 
-export const BaseInput = defineAsyncComponent(() => import('./BaseInput'))
-export const BaseNumber = defineAsyncComponent(() => import('./BaseNumber'))
-export const BaseSelect = defineAsyncComponent(() => import('./BaseSelect'))
-export const BaseRadio = defineAsyncComponent(() => import('./BaseRadio'))
-export const BaseCheckbox = defineAsyncComponent(() => import('./BaseCheckbox'))
-export const BaseDate = defineAsyncComponent(() => import('./BaseDate'))
-export const BaseDateRange = defineAsyncComponent(() => import('./BaseDateRange'))
-export const BaseNumberRange = defineAsyncComponent(() => import('./BaseNumberRange'))
-export const BaseCascader = defineAsyncComponent(() => import('./BaseCascader'))
-export const BaseSwitch = defineAsyncComponent(() => import('./BaseSwitch'))
-export const BaseText = defineAsyncComponent(() => import('./BaseText'))
+import BaseInput from './BaseInput'
+import BaseNumber  from './BaseNumber'
+import BaseSelect from './BaseSelect'
+import BaseRadio from './BaseRadio'
+import BaseCheckbox from './BaseCheckbox'
+import BaseDate from './BaseDate'
+import BaseDateRange from './BaseDateRange'
+import BaseNumberRange from './BaseNumberRange'
+import BaseCascader from './BaseCascader'
+import BaseSwitch from './BaseSwitch'
+import BaseText from './BaseText'
 
 // 组件注册
 export const getComponentByType = (item: columnsBase): any => {

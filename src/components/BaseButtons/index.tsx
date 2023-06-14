@@ -1,16 +1,14 @@
-999
 /*
  * @Author: 陈宇环
  * @Date: 2023-05-10 16:10:11
- * @LastEditTime: 2023-05-12 09:40:43
+ * @LastEditTime: 2023-05-23 15:50:03
  * @LastEditors: 陈宇环
  * @Description: 按钮组件
  */
 
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import { buttonFace } from './interface/index'
 export default defineComponent({
-  name: 'EaseButton',
   props: {
     buttons: {
       type: Array as PropType<buttonFace[]>,
@@ -20,14 +18,19 @@ export default defineComponent({
     },
   },
   setup(props: any) {
+    const loading = ref(false)
     return () => {
       const buttonDom = (button: buttonFace) => {
         return <el-button
           type={button.type ?? 'primary'}
           size={button.size ?? 'small'}
+          disabled={button.disabled}
+          loading={loading.value}
           {...button.nativeProps}
-          onClick={() => {
-            button.click && button.click()
+          onClick={async() => {
+            loading.value = true
+            !button.confirmConfig && button.click && await button.click()
+            loading.value = false
           }}
         >
           {button.text ?? '文案'}
@@ -37,7 +40,10 @@ export default defineComponent({
         <div style="display: flex">
           {
             props.buttons.map((button: buttonFace) => {
-              if (button.confirmConfig) {
+              if (button.show === false) {
+                return null
+              }
+              if (button.confirmConfig && !button.disabled) {
                 return <el-popconfirm
                   confirm-button-text="确认"
                   cancel-button-text="取消"
@@ -68,3 +74,5 @@ export default defineComponent({
     }
   },
 })
+
+export * from './interface/index'

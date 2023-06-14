@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-12-20 17:13:23
- * @LastEditTime: 2023-05-12 17:06:47
+ * @LastEditTime: 2023-05-23 15:54:05
  * @LastEditors: 陈宇环
  * @Description: 表单组件
  */
@@ -172,13 +172,14 @@ export default defineComponent({
       ruleFormRef.value?.scrollToField(field)
     }
 
-    expose({ validate, resetFields, clearValidate, scrollToField, validateField })
 
     const searchFn = async() => {
       const verify = await validate()
       if (verify) {
+        cloneConfig.loading = true
         emit('search')
-        cloneConfig.searchFn && cloneConfig.searchFn()
+        await (cloneConfig.searchFn && cloneConfig.searchFn(initForm.value))
+        cloneConfig.loading = false
       } else {
         console.log('error searchFn!')
       }
@@ -187,8 +188,10 @@ export default defineComponent({
     const exportFn = async() => {
       const verify = await validate()
       if (verify) {
+        cloneConfig.loading = true
         emit('export')
-        cloneConfig.exportFn && cloneConfig.exportFn()
+        await (cloneConfig.exportFn && cloneConfig.exportFn(initForm.value))
+        cloneConfig.loading = false
       } else {
         console.log('error exportFn!')
       }
@@ -216,6 +219,8 @@ export default defineComponent({
       ruleFormRef.value.resetFields()
       updateModelValue()
     }
+    
+    expose({ validate, resetFields, clearValidate, scrollToField, validateField, resetFn })
 
     // 根据item：columnsFormBase获取返回对应的src/components里的组件
     const componentRender = (item: columnsBase) => {
@@ -224,7 +229,7 @@ export default defineComponent({
         v-models={[
           [initForm.value[item.prop]],
           [initForm.value[(item as {propEnd?: any}).propEnd], 'propEnd'],
-          [initForm.value[(item as {files?: any}).files], 'fileList'],
+          [initForm.value[(item as {files?: any}).files], 'files'],
         ]}
         config={item}
         onChange={(params: any) => {
