@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-12-20 09:56:21
- * @LastEditTime: 2023-06-14 10:32:27
+ * @LastEditTime: 2023-06-14 11:03:40
  * @LastEditors: 陈宇环
  * @Description:
  */
@@ -13,7 +13,7 @@ import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
 
 export default defineComponent({
-  name: 'EaseCheckbox',
+  name: 'BsCheckbox',
   props: {
     modelValue: {
       type: Array,

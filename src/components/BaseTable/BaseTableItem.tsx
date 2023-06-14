@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-04-08 13:49:50
- * @LastEditTime: 2023-06-06 10:27:34
+ * @LastEditTime: 2023-06-14 11:04:42
  * @LastEditors: 陈宇环
  * @Description:
  */
@@ -10,6 +10,7 @@ import BaseTableItem from './BaseTableItem'
 import { theadItemConfig } from './interface/index'
 import { CustomDynamicComponent } from '../CustomDynamicComponent'
 export default defineComponent({
+  name: 'BsTableItem',
   components: { },
   props: {
     itemData: {

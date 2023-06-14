@@ -11,7 +11,7 @@ import { passwordProps } from '../interface/index'
 import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
 export default defineComponent({
-  name: 'EasePasswod',
+  name: 'BsPasswod',
   props: {
     modelValue: {
       type: [String, Number],

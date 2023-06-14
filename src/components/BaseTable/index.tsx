@@ -12,7 +12,7 @@ import styles from '@/components/BaseTable/style.module.scss'
 import { CustomDynamicComponent } from '../CustomDynamicComponent'
 
 export default defineComponent({
-  name: 'EaseTable',
+  name: 'BsTable',
   components: {},
   props: {
     tableConfig: {

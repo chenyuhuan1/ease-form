@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-09-07 16:37:21
- * @LastEditTime: 2023-06-13 11:41:52
+ * @LastEditTime: 2023-06-14 11:02:58
  * @LastEditors: 陈宇环
  * @Description:
  */
@@ -11,7 +11,7 @@ import { cascaderProps } from '../interface/index'
 import styles from '@/components/BaseForm/style.module.scss'
 import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 export default defineComponent({
-  name: 'EaseCascader',
+  name: 'BsCascader',
   props: {
     modelValue: {
       type: [Number, String, Array, Object, Boolean],

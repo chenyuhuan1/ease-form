@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-04-28 15:34:56
- * @LastEditTime: 2023-06-13 10:14:51
+ * @LastEditTime: 2023-06-14 11:03:46
  * @LastEditors: 陈宇环
  * @Description: 'yearRange' | 'monthRange' | 'dateRange' | 'datetimeRange'组件
  */
@@ -13,7 +13,7 @@ import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
 
 export default defineComponent({
-  name: 'EaseDateRange',
+  name: 'BsDateRange',
   props: {
     modelValue: {
       type: [String, Number],

@@ -11,7 +11,7 @@ import { numberRangeProps } from '../interface/index'
 import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
 export default defineComponent({
-  name: 'EaseNumberRange',
+  name: 'BsNumberRange',
   props: {
     modelValue: {
       type: [String, Number],

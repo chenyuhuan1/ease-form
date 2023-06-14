@@ -12,7 +12,7 @@ import styles from '@/components/BaseForm/style.module.scss'
 import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
 export default defineComponent({
-  name: 'EaseRadio',
+  name: 'BsRadio',
   props: {
     modelValue: {
       type: [Number, String, Boolean],

@@ -1,32 +1,32 @@
-import easeForm from './components/easeForm'
-import easeCascader from './components/easeCascader'
-import easeCheckbox from './components/easeCheckbox'
-import easeDate from './components/easeDate'
-import easeDateRange from './components/easeDateRange'
-import easeInput from './components/easeInput'
-import easeNumber from './components/easeNumber'
-import easeNumberRange from './components/easeNumberRange'
-import easeRadio from './components/easeRadio'
-import easeSelect from './components/easeSelect'
-import easeSwitch from './components/easeSwitch'
-import easeText from './components/easeText'
-import easeTable from './components/easeTable'
-import easeButtons from './components/easeButtons'
+import BsForm from './components/bsForm'
+import BsCascader from './components/bsCascader'
+import BsCheckbox from './components/bsCheckbox'
+import BsDate from './components/bsDate'
+import BsDateRange from './components/bsDateRange'
+import BsInput from './components/bsInput'
+import BsNumber from './components/bsNumber'
+import BsNumberRange from './components/bsNumberRange'
+import BsRadio from './components/bsRadio'
+import BsSelect from './components/bsSelect'
+import BsSwitch from './components/bsSwitch'
+import BsText from './components/bsText'
+import BsTable from './components/bsTable'
+import BsButtons from './components/bsButtons'
 const components = [
-  easeForm,
-  easeCascader,
-  easeCheckbox,
-  easeDate,
-  easeDateRange,
-  easeInput,
-  easeNumber,
-  easeNumberRange,
-  easeRadio,
-  easeSelect,
-  easeSwitch,
-  easeText,
-  easeTable,
-  easeButtons,
+  BsForm,
+  BsCascader,
+  BsCheckbox,
+  BsDate,
+  BsDateRange,
+  BsInput,
+  BsNumber,
+  BsNumberRange,
+  BsRadio,
+  BsSelect,
+  BsSwitch,
+  BsText,
+  BsTable,
+  BsButtons,
 ] // 组件集合
 const install = function(Vue) {
   // 注册所有的组件
@@ -38,22 +38,5 @@ const install = function(Vue) {
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
-// export default {
-//   install,
-//   easeForm,
-//   easeCascader,
-//   easeCheckbox,
-//   easeDate,
-//   easeDateRange,
-//   easeInput,
-//   easeNumber,
-//   easeNumberRange,
-//   easeRadio,
-//   easeSelect,
-//   easeSwitch,
-//   easeText,
-//   easeTable,
-//   easeButtons,
-// } // 必须要有导出
 
 export default install

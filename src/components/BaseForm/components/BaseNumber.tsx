@@ -11,7 +11,7 @@ import { numberProps } from '../interface/index'
 import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
 export default defineComponent({
-  name: 'EaseNumber',
+  name: 'BsNumber',
   props: {
     modelValue: {
       type: [String, Number],

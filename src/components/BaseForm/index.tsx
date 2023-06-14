@@ -13,7 +13,7 @@ import { commonRules, rulesIn } from '@/utils/validator'
 // 导入所有自定义form控件组件
 import * as widget from './components/index'
 export default defineComponent({
-  name: 'EaseForm',
+  name: 'BsForm',
   props: {
     modelValue: {
       type: Object,

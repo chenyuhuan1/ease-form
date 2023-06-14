@@ -12,7 +12,7 @@ import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 import dayjs, { Dayjs } from 'dayjs'
 
 export default defineComponent({
-  name: 'EaseDate',
+  name: 'BsDate',
   props: {
     modelValue: {
       type: String,

@@ -11,7 +11,7 @@ import styles from '@/components/BaseForm/style.module.scss'
 import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
 export default defineComponent({
-  name: 'EaseSwitch',
+  name: 'BsSwitch',
   props: {
     modelValue: {
       type: [String, Number, Boolean],

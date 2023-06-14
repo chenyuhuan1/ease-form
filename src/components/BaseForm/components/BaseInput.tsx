@@ -12,7 +12,7 @@ import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
 
 export default defineComponent({
-  name: 'EaseInput',
+  name: 'BsInput',
   props: {
     modelValue: {
       type: [String, Number],

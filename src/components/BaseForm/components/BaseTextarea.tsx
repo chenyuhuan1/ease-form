@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-12-20 14:37:53
- * @LastEditTime: 2023-06-06 11:33:41
+ * @LastEditTime: 2023-06-14 11:04:12
  * @LastEditors: 陈宇环
  * @Description:
  */
@@ -11,7 +11,7 @@ import { textareaProps } from '../interface/index'
 import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
 export default defineComponent({
-  name: 'EaseTextarea',
+  name: 'BsTextarea',
   props: {
     modelValue: {
       type: [String, Number],

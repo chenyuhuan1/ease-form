@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2023-05-10 16:10:11
- * @LastEditTime: 2023-06-13 14:31:16
+ * @LastEditTime: 2023-06-14 11:02:45
  * @LastEditors: 陈宇环
  * @Description: 按钮组件
  */
@@ -10,7 +10,7 @@ import { defineComponent, PropType, ref } from 'vue'
 import { buttonFace } from './interface/index'
 import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 export default defineComponent({
-  name: 'EaseButtons',
+  name: 'BsButtons',
   props: {
     buttons: {
       type: Array as PropType<buttonFace[]>,
