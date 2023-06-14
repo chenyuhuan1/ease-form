@@ -1,18 +1,19 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-04-08 13:49:50
- * @LastEditTime: 2023-05-12 17:07:56
+ * @LastEditTime: 2023-06-14 10:32:58
  * @LastEditors: 陈宇环
  * @Description:
  */
 import { defineComponent, toRefs, reactive, ref, onMounted, PropType, watch } from 'vue'
-
 import BaseTableItem from './BaseTableItem'
 import { theadItemConfig, loadDataFace, pagingConfigFace, tableConfigFace } from './interface/index'
-import styles from  '@/components/BaseTable/style.module.scss'
+import styles from '@/components/BaseTable/style.module.scss'
+import { CustomDynamicComponent } from '../CustomDynamicComponent'
 
 export default defineComponent({
   name: 'EaseTable',
+  components: {},
   props: {
     tableConfig: {
       type: Object as PropType<tableConfigFace>,
@@ -26,7 +27,7 @@ export default defineComponent({
         return {}  // 默认值请看defaultPagingConfig
       },
     },
-    thead: {
+    columns: {
       type: Array as PropType<theadItemConfig[]>,
       required: true,
       default() {
@@ -51,7 +52,7 @@ export default defineComponent({
   setup(props: any, { expose }) {
     const {
       loadData,
-      thead,
+      columns,
     } = toRefs(props)
 
     const defaultTableConfig: tableConfigFace = {
@@ -60,6 +61,29 @@ export default defineComponent({
       border: true,
       stripe: true,
     }
+    /**
+     * 当ui切换为ant-Design-vue时，转为columns为ant-Design-vue的columns格式 start
+     * @param data columns数据
+     */
+    const changeTableColumns = (data: any) => {
+      const arr = [...data]
+      arr.forEach((v: any) => {
+        v.title = v.label
+        if (v.children && v.children.length) {
+          changeTableColumns(v.children)
+        } else {
+          v.dataIndex = v.prop
+        }
+      })
+    }
+    if (window.uiLanguage === CustomDynamicComponent.antLanguage) {
+      changeTableColumns(columns.value)
+    }
+    /**
+     * 当ui切换为ant时，转为columns为ant-Design-vue的columns格式 end
+     * @param data columns数据
+     */
+
     const cloneTableConfig: tableConfigFace = reactive<tableConfigFace>({
       ...defaultTableConfig,
       ...props.tableConfig,
@@ -76,9 +100,13 @@ export default defineComponent({
     const defaultPagingConfig: pagingConfigFace = {
       open: true,
       pageIndex: 1,
-      pageSize: 20,
+      pageSize: 10,
       total: 0,
       layout: 'total, sizes, prev, pager, next',
+
+      // ant-ui相关
+      showTotal: (total: number) => `共 ${total} 条`,
+      showSizeChanger: true,
     }
     const clonePagingConfig: pagingConfigFace = reactive<pagingConfigFace>({
       ...defaultPagingConfig,
@@ -156,60 +184,68 @@ export default defineComponent({
     }
 
     return () => {
+      const dynamicComponent = new CustomDynamicComponent()
+      const { dynamicTable, dynamicTableColumn, dynamicRadio, dynamicPagination } = dynamicComponent
       return (
         <div class={[styles.BaseTable]}>
-          <el-table
+          <dynamicTable
             v-loading={loading.value}
             height="100%"
             ref={tableDom}
             class={[styles.table]}
             data={list.value}
+            columns={columns.value}
+            data-source={list.value}
             style={{ maxWidth: '100%' }}
             row-key={cloneTableConfig.rowKey}
+
+            pagination={false} // ant 特有属性，关闭table自带分页
+
             {...cloneTableConfig.nativeProps}
             onSelectionChange={(val: any) => handleSelectionChange(val)}
           >
-            {/* 需要多选行选择按钮 */}
-            {cloneTableConfig.rowSelection && cloneTableConfig.rowSelection.type === 'checkout' ? (
-              <el-table-column type="selection" align="center" selectable={(row:any, index: number) => {
-                return cloneTableConfig.rowSelection?.selectable ? cloneTableConfig.rowSelection?.selectable(row, index) : true
-              }} />
-            ) : null}
-            {/* 需要单选行选择按钮 */}
-            {cloneTableConfig.rowSelection && cloneTableConfig.rowSelection.type === 'radio' ? (
-              <el-table-column
-                label=""
-                align="center"
-                width="60"
-                fixed
-                v-slots={{
-                  default: (scope: any, column: any, index: number) => {
-                    return (
-                      <div style={{ textAlign: 'center' }}>
-                        <el-radio
-                          disabled={cloneTableConfig.rowSelection?.selectable ? !cloneTableConfig.rowSelection?.selectable(scope.row, index) : false}
-                          class={[styles.rowRadio]}
-                          v-model={radio.value}
-                          label={scope.row[cloneTableConfig.rowKey ? cloneTableConfig.rowKey : 'id']}
-                          onChange={(val: any) => handleSelectionChange(val)}
-                        ></el-radio>
-                      </div>
-                    )
-                  },
-                }}
-              ></el-table-column>
-            ) : null}
-            {thead.value.map((item: theadItemConfig, index: any) => {
-              return (
-                // 递归组件
-                <BaseTableItem
-                  key={item.prop ? item.prop : '' + index}
-                  item-data={item}
-                />
-              )
-            })}
-          </el-table>
-          {/* 分页 */}
+            {/* 只有el-ui走这段渲染逻辑，ant-Design-vue是通过columns直接生成的 */}
+            {window.uiLanguage === CustomDynamicComponent.eleLanguage ? <>
+              {/* 需要多选行选择按钮 */}
+              {cloneTableConfig.rowSelection && cloneTableConfig.rowSelection.type === 'checkout' ? (
+                <dynamicTableColumn type="selection" align="center" selectable={(row: any, index: number) => {
+                  return cloneTableConfig.rowSelection?.selectable ? cloneTableConfig.rowSelection?.selectable(row, index) : true
+                }} />
+              ) : null}
+              {/* 需要单选行选择按钮 */}
+              {cloneTableConfig.rowSelection && cloneTableConfig.rowSelection.type === 'radio' ? (
+                <dynamicTableColumn
+                  label=""
+                  align="center"
+                  width="60"
+                  fixed
+                  v-slots={{
+                    default: (scope: any, column: any, index: number) => {
+                      return (
+                        <div style={{ textAlign: 'center' }}>
+                          <dynamicRadio
+                            disabled={cloneTableConfig.rowSelection?.selectable ? !cloneTableConfig.rowSelection?.selectable(scope.row, index) : false}
+                            class={[styles.rowRadio]}
+                            v-model={radio.value}
+                            label={scope.row[cloneTableConfig.rowKey ? cloneTableConfig.rowKey : 'id']}
+                            onChange={(val: any) => handleSelectionChange(val)}
+                          ></dynamicRadio>
+                        </div>
+                      )
+                    },
+                  }}
+                ></dynamicTableColumn>
+              ) : null}
+              {columns.value.map((item: theadItemConfig, index: any) => {
+                return (
+                  // 递归组件
+                  <BaseTableItem
+                    key={item.prop ? item.prop : '' + index}
+                    item-data={item}
+                  ></BaseTableItem>
+                )
+              })}</> : null}
+          </dynamicTable>
           {
             clonePagingConfig.open && <div
               style={{
@@ -218,7 +254,7 @@ export default defineComponent({
                 padding: '15px 0',
               }}
             >
-              <el-pagination
+              <dynamicPagination
                 current-page={pageInfo.pageIndex}
                 page-size={pageInfo.pageSize}
                 layout={defaultPagingConfig.layout}
@@ -227,6 +263,11 @@ export default defineComponent({
                 {...clonePagingConfig.nativeProps}
                 onSizeChange={(val: any) => handleSizeChange(val)}
                 onCurrentChange={(val: any) => handleCurrentChange(val)}
+                
+                // ant-ui相关属性
+                current={pageInfo.pageIndex}
+                onShowSizeChange={(current: number, size: number) => handleSizeChange(size)}
+                onChange={(page:number) => handleCurrentChange(page)}
               />
             </div>
           }
@@ -235,3 +276,5 @@ export default defineComponent({
     }
   },
 })
+
+export * from './interface/index'

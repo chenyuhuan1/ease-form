@@ -34,8 +34,6 @@ function upperCasetoLine(str) {
 // 将packages目录下的子目录组成如下格式数组'ease-form': resolve('packages/components/easeForm.ts')
 function getComponentEntries(path) {
   const files = fs.readdirSync(resolve(path))
-  console.log('files', files)
-
   const componentEntries = files.reduce((fileObj, item) => {
     //  文件路径
     const itemPath = join(path, item)

@@ -1,14 +1,16 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-04-08 13:49:50
- * @LastEditTime: 2023-05-08 16:49:12
- * @LastEditors: tanpeng
+ * @LastEditTime: 2023-06-06 10:27:34
+ * @LastEditors: 陈宇环
  * @Description:
  */
 import { defineComponent, toRefs, PropType } from 'vue'
 import BaseTableItem from './BaseTableItem'
 import { theadItemConfig } from './interface/index'
+import { CustomDynamicComponent } from '../CustomDynamicComponent'
 export default defineComponent({
+  components: { },
   props: {
     itemData: {
       type: Object as PropType<theadItemConfig>,
@@ -22,6 +24,8 @@ export default defineComponent({
   },
   setup(props:any) {
     const { itemData } = toRefs(props)
+    const dynamicComponent = new CustomDynamicComponent()
+    const { dynamicTableColumn } = dynamicComponent
     // 多级头递归
     const childrenDom =
       itemData.value.children && itemData.value.children.length > 0
@@ -35,7 +39,7 @@ export default defineComponent({
     return () => {
       // 序号
       if (itemData.value.type && itemData.value.type === 'index') {
-        return <el-table-column
+        return <dynamicTableColumn
           type="index"
           width={itemData.value.width}
           min-width={itemData.value.minWidth}
@@ -44,8 +48,11 @@ export default defineComponent({
           {...itemData.value.nativeProps}
         />
       }
+      // const itemDataProps: theadItemConfig = _.cloneDeep(itemData.value)
+      // 解决element-ui报错问题
+      itemData.value.children = undefined
       return (
-        <el-table-column
+        <dynamicTableColumn
           prop={itemData.value.prop}
           label={itemData.value.label}
           width={itemData.value.width}
@@ -54,7 +61,7 @@ export default defineComponent({
           fixed={itemData.value.fixed ? itemData.value.fixed : false}
           {...itemData.value.nativeProps}
           v-slots={{
-            default: (scope:any) => {
+            default: (scope: any) => {
               return <>
                 {
                   itemData.value.render ?
@@ -66,7 +73,7 @@ export default defineComponent({
               </>
             },
           }}
-        ></el-table-column>
+        ></dynamicTableColumn>
       )
     }
   },

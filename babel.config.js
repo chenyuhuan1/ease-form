@@ -7,7 +7,7 @@ module.exports = {
         targets: {
           browsers: ['last 2 versions'],
         },
-        debug: true,
+        debug: false,
       },
     ],
   ],

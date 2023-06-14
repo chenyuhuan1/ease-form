@@ -1,6 +1,6 @@
 {
   "name": "ease-form",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "main": "lib/index/index.js",
   "scripts": {
@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
-    "element-plus": "^2.3.4",
+    "element-plus": "^2.0.0",
+    "ant-design-vue": "^3.2.16",
     "register-service-worker": "^1.7.2",
     "vue": "^3.2.13"
   },

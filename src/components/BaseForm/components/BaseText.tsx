@@ -1,8 +1,8 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-12-18 10:35:57
- * @LastEditTime: 2023-05-08 11:51:25
- * @LastEditors: tanpeng
+ * @LastEditTime: 2023-06-14 10:36:42
+ * @LastEditors: 陈宇环
  * @Description: 普通文本节点
  *               文本内容取值为  绑定formData的值
  */
@@ -29,3 +29,4 @@ export default defineComponent({
     }
   },
 })
+

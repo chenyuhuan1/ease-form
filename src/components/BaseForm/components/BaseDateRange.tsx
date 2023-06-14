@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-04-28 15:34:56
- * @LastEditTime: 2023-05-12 17:07:11
+ * @LastEditTime: 2023-06-13 10:14:51
  * @LastEditors: 陈宇环
  * @Description: 'yearRange' | 'monthRange' | 'dateRange' | 'datetimeRange'组件
  */
@@ -9,6 +9,7 @@ import { defineComponent, watch, ref, PropType } from 'vue'
 import { dateRangeProps } from '../interface/index'
 import dayjs from 'dayjs'
 import styles from '@/components/BaseForm/style.module.scss'
+import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
 
 export default defineComponent({
@@ -82,7 +83,7 @@ export default defineComponent({
 
 
     function removerRange(type: string): any {
-      return type.replace('Range', '')
+      return type?.replace('Range', '')
     }
 
     function getFormat(type: string, formatType: 'format' | 'valueFormat'): string | null {
@@ -109,33 +110,47 @@ export default defineComponent({
     }
 
     return () => {
+      const dynamicComponent = new CustomDynamicComponent()
+      const { dynamicDatePicker } = dynamicComponent
       return <div class={['BaseDateRange', styles.width100]} style={{ display: 'flex' }}>
-        <el-date-picker
+        <dynamicDatePicker
           style={{ flex: 1 }}
           v-model={cloneModelValue.value}
           class="date"
           placeholder={props.config.placeholderStart || props.config.placeholder || `请选择${props.config.label}`}
           disabled={!!props.config.disabled}
-          type={removerRange(props.config.type) || 'date'}
           format={props.config.format || getFormat(props.config.type, 'format')}
           value-format={props.config.valueFormat || getFormat(props.config.type, 'valueFormat')}
-          clearable={props.config.clearable !== false}
           disabled-date={props.config.disabledDate || disabledDate}
-          {...props.config.nativeProps}
+
+          /** ant-design-vue && ele 统一封装 - start */
+          type={removerRange(props.config.type) || 'date'}   /** ele 专有属性*/
+          picker={removerRange(props.config.type) || 'date'}   /** ant-design-vue专有属性*/
+          clearable={props.config.clearable !== false} // ele 特有属性
+          allowClear={props.config.allowClear ?? props.config.clearable !== false} // ant-design-vue特有属性
+          /** ant-design-vue && ele 统一封装 - end */
+
           onChange={updateValue}
+          {...props.config.nativeProps}
         />
         <span style="padding: 0 5px;">~</span>
-        <el-date-picker
+        <dynamicDatePicker
           style={{ flex: 1 }}
           v-model={clonePropEnd.value}
           class="date"
           placeholder={props.config.placeholderEnd || props.config.placeholder || `请选择${props.config.label}`}
           disabled={!!props.config.disabled}
-          type={removerRange(props.config.type) || 'date'}
           format={props.config.format || getFormat(props.config.type, 'format')}
           value-format={props.config.valueFormat || getFormat(props.config.type, 'valueFormat')}
-          clearable={props.config.clearable !== false}
           disabled-date={props.config.disabledDate || disabledDateEnd}
+
+          /** ant-design-vue && ele 统一封装 - start */
+          type={removerRange(props.config.type) || 'date'}   /** ele 专有属性*/
+          picker={removerRange(props.config.type) || 'date'}   /** ant-design-vue专有属性*/
+          clearable={props.config.clearable !== false} // ele 特有属性
+          allowClear={props.config.allowClear ?? props.config.clearable !== false} // ant-design-vue特有属性
+          /** ant-design-vue && ele 统一封装 - end */
+
           {...props.config.nativeProps}
           onChange={updateEndValue}
         />

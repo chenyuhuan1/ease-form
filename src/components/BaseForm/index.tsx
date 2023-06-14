@@ -1,14 +1,15 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-12-20 17:13:23
- * @LastEditTime: 2023-05-23 15:54:05
+ * @LastEditTime: 2023-06-14 10:31:46
  * @LastEditors: 陈宇环
  * @Description: 表单组件
  */
 
 import { defineComponent, PropType, watch, ref, reactive, nextTick } from 'vue'
-import { formConfig, columnsBase } from './interface/index'
-
+import { formConfig, columnsBase, inlayRuleType } from './interface/index'
+import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
+import { commonRules, rulesIn } from '@/utils/validator'
 // 导入所有自定义form控件组件
 import * as widget from './components/index'
 export default defineComponent({
@@ -72,6 +73,11 @@ export default defineComponent({
       initForm.value = { ...props.modelValue, ...cloneInitForm }
     }
 
+    // 正则验证
+    const asyncValidator = (val: string | number | any[], type: keyof rulesIn) => val ? commonRules[type][0].test(val) : true
+    // 错误消息打印
+    const asyncMessage = (type: keyof rulesIn) => commonRules[type][1]
+
     const initRulesFn = () => {
       const cloneRules: { [key: string]: any } = {}
       cloneConfig.columns.forEach((item: columnsBase) => {
@@ -84,6 +90,17 @@ export default defineComponent({
               }${item.label}`,
               trigger: 'change',
             },
+            ...(item.inlayRules ? item.inlayRules.map((item: inlayRuleType) => {
+              return {
+                validator: (rule: any, value: any) => {
+                  if (!asyncValidator(value, item.validatorName)) {
+                    return Promise.reject(item.message ?? asyncMessage(item.validatorName))
+                  }
+                  return Promise.resolve()
+                },
+                trigger: item.trigger ?? 'change',
+              }
+            }) : []),
             ...(item.rules ? item.rules : []),
           ]
         }
@@ -128,14 +145,13 @@ export default defineComponent({
     const validate = async() => {
       return new Promise(async(resolve) => {
         await nextTick()
-        await ruleFormRef.value?.validate((valid: boolean, fields: any) => {
-          if (valid) {
-            resolve(true)
-          } else {
-            console.log('error validate!', fields)
-            resolve(false)
-          }
+        ruleFormRef.value.validate().then(() => {
+          resolve(true)
         })
+          .catch((err:any) => {
+            console.log(err)
+            resolve(false)
+          })
       })
     }
 
@@ -143,14 +159,13 @@ export default defineComponent({
     const validateField = async(prop?: string | string[]) => {
       return new Promise(async(resolve) => {
         await nextTick()
-        await ruleFormRef.value?.validateField(prop, (valid: boolean, fields: any) => {
-          if (valid) {
-            resolve(true)
-          } else {
-            console.log('error validateField!', fields)
-            resolve(false)
-          }
+        ruleFormRef.value.validateFields(prop).then(() => {
+          resolve(true)
         })
+          .catch((err:any) => {
+            console.log(err)
+            resolve(false)
+          })
       })
     }
 
@@ -171,7 +186,6 @@ export default defineComponent({
       await nextTick()
       ruleFormRef.value?.scrollToField(field)
     }
-
 
     const searchFn = async() => {
       const verify = await validate()
@@ -219,7 +233,6 @@ export default defineComponent({
       ruleFormRef.value.resetFields()
       updateModelValue()
     }
-    
     expose({ validate, resetFields, clearValidate, scrollToField, validateField, resetFn })
 
     // 根据item：columnsFormBase获取返回对应的src/components里的组件
@@ -229,7 +242,7 @@ export default defineComponent({
         v-models={[
           [initForm.value[item.prop]],
           [initForm.value[(item as {propEnd?: any}).propEnd], 'propEnd'],
-          [initForm.value[(item as {files?: any}).files], 'files'],
+          [initForm.value[(item as {files?: any}).files], 'fileList'],
         ]}
         config={item}
         onChange={(params: any) => {
@@ -243,9 +256,11 @@ export default defineComponent({
     }
 
     return () => {
+      const dynamicComponent = new CustomDynamicComponent()
+      const { dynamicForm, dynamicRow, dynamicCol,  dynamicFormItem, dynamicButton } = dynamicComponent
       return (
         <div class="BaseForm">
-          <el-form
+          <dynamicForm
             ref={ruleFormRef}
             v-loading={cloneConfig.loading}
             label-width={cloneConfig.labelWidth || '100px'}
@@ -256,12 +271,12 @@ export default defineComponent({
             disabled={cloneConfig.disabled}
             {...cloneConfig.nativeProps}
           >
-            <el-row gutter={15}>
+            <dynamicRow gutter={15}>
               {cloneConfig.columns.map((item) => {
                 return (
                   <>
                     {item.hide !== true && item.expandDefault !== false && (
-                      <el-col
+                      <dynamicCol
                         xs={
                           item.colNum || props.config.colNum || getSpan(item)[0]
                         }
@@ -278,31 +293,32 @@ export default defineComponent({
                           item.colNum || props.config.colNum || getSpan(item)[4]
                         }
                       >
-                        <el-form-item
+                        <dynamicFormItem
                           label-width={
                             item.labelWidth ||
                             props.config.labelWidth ||
                             '100px'
                           }
                           label={item.label}
-                          prop={item.prop}
+                          prop={window.uiLanguage === CustomDynamicComponent.antLanguage ? undefined : item.prop}
+                          name={item.prop}
                         >
                           {
                             item.type === 'render' // 自定义render函数（只替换form-item-conent部分，label不会被render）
                               ? item?.render() // ep-form-item__content 部分的render函数
                               : componentRender(item) // 根据item：columnsFormBase中的type属性获取对应的自定义组件
                           }
-                        </el-form-item>
-                      </el-col>
+                        </dynamicFormItem>
+                      </dynamicCol>
                     )}
                   </>
                 )
               })}
               {!cloneConfig.notOpBtn && cloneConfig.columns?.length > 0 && (
-                <el-col span={cloneConfig.opBtnCol} class="btn-wrap">
+                <dynamicCol span={cloneConfig.opBtnCol} class="btn-wrap">
                   <div style="display: flex;align-items: center;height: 100%;padding-bottom: 18px;box-sizing: border-box;">
                     {cloneConfig.isSearch && (
-                      <el-button
+                      <dynamicButton
                         type="primary"
                         size="small"
                         onClick={() => {
@@ -310,10 +326,10 @@ export default defineComponent({
                         }}
                       >
                     搜索
-                      </el-button>
+                      </dynamicButton>
                     )}
                     {cloneConfig.isReset && (
-                      <el-button
+                      <dynamicButton
                         type="warning"
                         size="small"
                         onClick={() => {
@@ -321,10 +337,10 @@ export default defineComponent({
                         }}
                       >
                       重置
-                      </el-button>
+                      </dynamicButton>
                     )}
                     {cloneConfig.isExport && (
-                      <el-button
+                      <dynamicButton
                         type="warning"
                         size="small"
                         onClick={() => {
@@ -332,10 +348,10 @@ export default defineComponent({
                         }}
                       >
                         导出
-                      </el-button>
+                      </dynamicButton>
                     )}
                     {cloneConfig.isExpand && (
-                      <el-button
+                      <dynamicButton
                         type="primary"
                         size="small"
                         onClick={() => {
@@ -343,16 +359,18 @@ export default defineComponent({
                         }}
                       >
                         {currentExportState.value ? '收起' : '展开'}
-                      </el-button>
+                      </dynamicButton>
                     )}
                     {cloneConfig.appendOpBtn && cloneConfig.appendOpBtn()}
                   </div>
-                </el-col>
+                </dynamicCol>
               )}
-            </el-row>
-          </el-form>
+            </dynamicRow>
+          </dynamicForm>
         </div>
       )
     }
   },
 })
+
+export * from './interface/index'

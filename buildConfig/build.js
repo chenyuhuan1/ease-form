@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2023-05-26 10:50:26
- * @LastEditTime: 2023-05-26 11:09:14
+ * @LastEditTime: 2023-06-05 16:10:36
  * @LastEditors: 陈宇环
  * @Description:
  */
@@ -20,9 +20,6 @@ const config = defineConfig({
       alias: {
         '@': resolve(__dirname, 'src'),
       },
-    },
-    externals: {
-      'element-plus': 'element-plus',
     },
   },
   chainWebpack: (chain) => {

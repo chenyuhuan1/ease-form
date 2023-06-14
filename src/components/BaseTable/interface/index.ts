@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2023-01-03 10:56:12
- * @LastEditTime: 2023-05-15 11:19:50
+ * @LastEditTime: 2023-06-06 11:11:18
  * @LastEditors: 陈宇环
  * @Description: table+paging 接口定义
  */
@@ -34,6 +34,8 @@ export type rowSelectionFace = {
   onChange:(selection?: any[]) => any,
   /** 当前行勾选是否禁用 */
   selectable?: (row:any, index:number) => boolean
+  /** ant-design-vue 属性兼容 */
+  [key: string]: any,
 }
 
 
@@ -47,6 +49,10 @@ export interface pagingConfigFace {
   pageSize?: number,
   /** 默认total */
   total?: number,
+  /** ant-design-vue 是否展示总数 */
+  showTotal?: (total: number)=> string,
+  /** ant-design-vue 是否需要分页大小切换组件 */
+  showSizeChanger?: boolean,
   /** 分页组件需要控件 */
   layout?: string,
   /** 分页index change函数 */
@@ -82,6 +88,8 @@ export interface theadItemConfig {
   render?: (scope: any) => any,
   /** 多级头定义 */
   children?: theadItemConfig[],
+  /** ant-design-vue columns属性兼容 */
+  [key: string]: any,
   /** ui框架原生属性 */
   nativeProps?: {
     [key: string]: any

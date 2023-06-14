@@ -1,25 +1,24 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-12-20 14:37:53
- * @LastEditTime: 2023-06-06 11:34:24
+ * @LastEditTime: 2023-06-06 11:33:41
  * @LastEditors: 陈宇环
  * @Description:
  */
 import { defineComponent, PropType } from 'vue'
 import styles from '@/components/BaseForm/style.module.scss'
-import { inputProps } from '../interface/index'
+import { textareaProps } from '../interface/index'
 import { CustomDynamicComponent } from '@/components/CustomDynamicComponent'
 
-
 export default defineComponent({
-  name: 'EaseInput',
+  name: 'EaseTextarea',
   props: {
     modelValue: {
       type: [String, Number],
       default: '',
     },
     config: {
-      type: Object as PropType<inputProps>,
+      type: Object as PropType<textareaProps>,
       default() {
         return {}
       },
@@ -27,7 +26,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change'],
   setup(props: any, { emit }) {
-    const { dynamicInput } = new CustomDynamicComponent()
+    const { dynamicTextarea } = new CustomDynamicComponent()
     function updateValue(value: number | string | InputEvent) {
       let cloneValue = value
       
@@ -43,17 +42,20 @@ export default defineComponent({
       })
     }
     return () => {
-      return <div class={['baseInput', styles.width100]}>
-        <dynamicInput
-          class="input"
-          type='text'
+      return <div class={['baseTextarea', styles.width100]}>
+        <dynamicTextarea
+          class="textarea"
+          type='textarea'
           model-value={props.modelValue}
           placeholder={props.config.placeholder || `请输入${props.config.label}`}
           disabled={!!props.config.disabled}
+          
 
           /** ant-design-vue && ele 统一封装 - start */
-          clearable={props.config.clearable !== false}  // ele 特有属性
+          clearable={props.config.clearable !== false}  // ele 特有属性 - 清除按钮
           allowClear={props.config.allowClear ?? props.config.clearable !== false} // ant-design-vue特有属性
+          rows={props.config.rows || 3}  // ele 特有属性 - 默认area行数
+          autoSize={props.config.autoSize || { minRows: 3, maxRows: 3 }}  // ant-design-vue特有属性 - 默认area行数
           /** ant-design-vue && ele 统一封装 - end */
 
           {...props.config.nativeProps}
