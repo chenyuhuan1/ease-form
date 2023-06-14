@@ -1,6 +1,6 @@
 {
-  "name": "ease-form",
-  "version": "0.2.0",
+  "name": "backstage-vue3",
+  "version": "0.1.0",
   "private": false,
   "main": "lib/index/index.js",
   "scripts": {

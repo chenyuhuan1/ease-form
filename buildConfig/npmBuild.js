@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2023-05-26 10:50:26
- * @LastEditTime: 2023-05-30 15:30:04
+ * @LastEditTime: 2023-06-14 10:54:39
  * @LastEditors: 陈宇环
  * @Description:
  */
@@ -74,7 +74,7 @@ const config = {
       //  依赖输出
       libraryExport: 'default',
       //  依赖名称
-      library: 'ease-form',
+      library: 'backstage-vue3',
     },
     externals: {
       'element-plus': 'element-plus',
