@@ -1,7 +1,7 @@
 <!--
  * @Author: 陈宇环
  * @Date: 2023-03-03 17:00:45
- * @LastEditTime: 2023-06-13 15:20:08
+ * @LastEditTime: 2023-06-21 10:16:28
  * @LastEditors: 陈宇环
  * @Description: 组件示例页面
 -->
@@ -33,7 +33,7 @@
             confirmConfig: {
               title: '点击[审核]当前选择记录状态将变成:已审核，确定继续吗?',
               nativeProps: {
-                placement: 'topLeft'
+                placement: 'top-start'
               }
             },
             click: () => {
@@ -210,25 +210,25 @@ const config = reactive<{
       placeholder: '请输入日期1',
       required: true,
     },
-    // {
-    //   label: '日期范围',
-    //   prop: 'date2',
-    //   propEnd: 'date3',
-    //   type: 'dateRange',
-    //   placeholder: '请输入日期范围1',
-    //   required: true,
-    //   // disabledDate: (date: any) => {
-    //   //   return +date > +new Date()
-    //   // },
-    // },
-    // {
-    //   label: '数字范围',
-    //   prop: 'number2',
-    //   propEnd: 'number3',
-    //   type: 'numberRange',
-    //   placeholder: '请输入数字返回1',
-    //   required: true,
-    // },
+    {
+      label: '日期范围',
+      prop: 'date2',
+      propEnd: 'date3',
+      type: 'dateRange',
+      placeholder: '请输入日期范围1',
+      required: true,
+      // disabledDate: (date: any) => {
+      //   return +date > +new Date()
+      // },
+    },
+    {
+      label: '数字范围',
+      prop: 'number2',
+      propEnd: 'number3',
+      type: 'numberRange',
+      placeholder: '请输入数字返回1',
+      required: true,
+    },
     {
       colNum: 24,
       label: '地址',
@@ -337,11 +337,6 @@ const thead = ref<theadConfigFace>([
     nativeProps: {
       'show-overflow-tooltip': true,
     },
-    // render: (scope) => (
-    //   <div>
-    //     {scope.row.infoData1} slot生效
-    //   </div>
-    // ),
   },
   {
     prop: 'info',
@@ -378,11 +373,6 @@ const thead = ref<theadConfigFace>([
             prop: 'infoData211',
             label: '统计数目211',
             width: 160,
-            // render: (scope) => (
-            //   <div>
-            //     {scope.row.infoData211} slot生效211
-            //   </div>
-            // ),
           },
           {
             prop: 'infoData212',
@@ -392,28 +382,6 @@ const thead = ref<theadConfigFace>([
           },
         ],
       },
-      // {
-      //   prop: 'infoData21',
-      //   label: '统计数目21',
-      //   width: 160,
-      //   children: [
-      //     {
-      //       prop: 'infoData211',
-      //       label: '统计数目211',
-      //       width: 160,
-      //       render: (scope: any) => (
-      //         <div>
-      //           {scope.row.infoData211} slot生效211
-      //         </div>
-      //       ),
-      //     },
-      //     {
-      //       prop: 'infoData212',
-      //       label: '统计数目212',
-      //       width: 160,
-      //     },
-      //   ],
-      // },
     ],
   },
 ])

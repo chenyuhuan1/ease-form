@@ -1,10 +1,11 @@
 /*
  * @Author: 陈宇环
  * @Date: 2023-06-05 15:12:47
- * @LastEditTime: 2023-06-14 10:30:49
+ * @LastEditTime: 2023-06-21 10:51:09
  * @LastEditors: 陈宇环
  * @Description:
  */
+// window.uiLanguage = 'ant'
 // 自定义动态组件
 export class CustomDynamicComponent {
   // 定义this属性的类型

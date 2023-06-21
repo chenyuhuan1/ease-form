@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-12-20 09:56:21
- * @LastEditTime: 2023-06-14 11:03:40
+ * @LastEditTime: 2023-06-21 10:02:51
  * @LastEditors: 陈宇环
  * @Description:
  */
@@ -70,7 +70,7 @@ export default defineComponent({
       const dynamicComponent = new CustomDynamicComponent()
       const { dynamicCheckBoxGroup, dynamicCheckBox, dynamicCheckBoxButton } = dynamicComponent
       // dynamicCheckBoxButton 只有element-plus有这个组件
-      const componentInstance = props.config.showType === 'button' && window.uiLanguage === CustomDynamicComponent.eleLanguage ? dynamicCheckBoxButton : dynamicCheckBox
+      const componentInstance = props.config.showType === 'button' && CustomDynamicComponent.language === CustomDynamicComponent.eleLanguage ? dynamicCheckBoxButton : dynamicCheckBox
       return <div class={['BaseCheckbox', styles.width100]}>
         <dynamicCheckBoxGroup
           loading={optionsLoading.value}
@@ -85,7 +85,7 @@ export default defineComponent({
         >
           {
             /** 只有element-plus使用以下逻辑 */
-            window.uiLanguage === CustomDynamicComponent.eleLanguage && options.value.map((item: any, index: number) => {
+            CustomDynamicComponent.language === CustomDynamicComponent.eleLanguage && options.value.map((item: any, index: number) => {
               return  <componentInstance
                 key={item.value + '_' + index}
                 label={item.value}

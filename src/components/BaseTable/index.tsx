@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-04-08 13:49:50
- * @LastEditTime: 2023-06-14 10:32:58
+ * @LastEditTime: 2023-06-20 14:27:03
  * @LastEditors: 陈宇环
  * @Description:
  */
@@ -76,7 +76,7 @@ export default defineComponent({
         }
       })
     }
-    if (window.uiLanguage === CustomDynamicComponent.antLanguage) {
+    if (CustomDynamicComponent.language === CustomDynamicComponent.antLanguage) {
       changeTableColumns(columns.value)
     }
     /**
@@ -205,7 +205,7 @@ export default defineComponent({
             onSelectionChange={(val: any) => handleSelectionChange(val)}
           >
             {/* 只有el-ui走这段渲染逻辑，ant-Design-vue是通过columns直接生成的 */}
-            {window.uiLanguage === CustomDynamicComponent.eleLanguage ? <>
+            {CustomDynamicComponent.language === CustomDynamicComponent.eleLanguage ? <>
               {/* 需要多选行选择按钮 */}
               {cloneTableConfig.rowSelection && cloneTableConfig.rowSelection.type === 'checkout' ? (
                 <dynamicTableColumn type="selection" align="center" selectable={(row: any, index: number) => {

@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2023-01-03 15:27:55
- * @LastEditTime: 2023-06-13 09:55:01
+ * @LastEditTime: 2023-06-21 10:38:38
  * @LastEditors: 陈宇环
  * @Description:
  */
@@ -56,9 +56,11 @@ export default defineComponent({
       })
     }
     return () => {
+      // ant-design-vue formitem只允许一个form控件
+      const formItem = CustomDynamicComponent.language === CustomDynamicComponent.antLanguage ? <a-form-item /> : <template />
       return <div class={['BaseNumberRange', styles.width100, styles.BaseNumberRange]}>
         <dynamicNumber
-          style={{ width: '100%' }}
+          style={{ flex: 1 }}
           v-model={cloneModelValue.value}
           class={['inputNumber', props.config.controls !== true ? styles.noControls : null]}
           placeholder={props.config.placeholderStart || props.config.placeholder || `请选择${props.config.label}`}
@@ -68,16 +70,18 @@ export default defineComponent({
           onInput={updateValue}
         />
         <span style="padding: 0 5px;">~</span>
-        <dynamicNumber
-          style={{ width: '100%' }}
-          v-model={clonePropEnd.value}
-          class={['inputNumber', props.config.controls !== true ? styles.noControls : null]}
-          placeholder={props.config.placeholderEnd || props.config.placeholder || `请选择${props.config.label}`}
-          disabled={!!props.config.disabled}
-          controls={props.config.controls === true}
-          {...props.config.nativeProps}
-          onInput={updateEndValue}
-        />
+        <formItem style="margin: 0;flex: 1;display: flex;">
+          <dynamicNumber
+            style={{ flex: 1 }}
+            v-model={clonePropEnd.value}
+            class={['inputNumber', props.config.controls !== true ? styles.noControls : null]}
+            placeholder={props.config.placeholderEnd || props.config.placeholder || `请选择${props.config.label}`}
+            disabled={!!props.config.disabled}
+            controls={props.config.controls === true}
+            {...props.config.nativeProps}
+            onInput={updateEndValue}
+          />
+        </formItem>
       </div>
     }
   },

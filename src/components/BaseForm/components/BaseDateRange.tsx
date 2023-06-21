@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-04-28 15:34:56
- * @LastEditTime: 2023-06-14 11:03:46
+ * @LastEditTime: 2023-06-21 10:43:01
  * @LastEditors: 陈宇环
  * @Description: 'yearRange' | 'monthRange' | 'dateRange' | 'datetimeRange'组件
  */
@@ -112,6 +112,8 @@ export default defineComponent({
     return () => {
       const dynamicComponent = new CustomDynamicComponent()
       const { dynamicDatePicker } = dynamicComponent
+      // ant-design-vue formitem只允许一个form控件
+      const formItem = CustomDynamicComponent.language === CustomDynamicComponent.antLanguage ? <a-form-item /> : <template />
       return <div class={['BaseDateRange', styles.width100]} style={{ display: 'flex' }}>
         <dynamicDatePicker
           style={{ flex: 1 }}
@@ -134,26 +136,28 @@ export default defineComponent({
           {...props.config.nativeProps}
         />
         <span style="padding: 0 5px;">~</span>
-        <dynamicDatePicker
-          style={{ flex: 1 }}
-          v-model={clonePropEnd.value}
-          class="date"
-          placeholder={props.config.placeholderEnd || props.config.placeholder || `请选择${props.config.label}`}
-          disabled={!!props.config.disabled}
-          format={props.config.format || getFormat(props.config.type, 'format')}
-          value-format={props.config.valueFormat || getFormat(props.config.type, 'valueFormat')}
-          disabled-date={props.config.disabledDate || disabledDateEnd}
+        <formItem style="margin: 0;flex: 1;display: flex;">
+          <dynamicDatePicker
+            style={{ flex: 1 }}
+            v-model={clonePropEnd.value}
+            class="date"
+            placeholder={props.config.placeholderEnd || props.config.placeholder || `请选择${props.config.label}`}
+            disabled={!!props.config.disabled}
+            format={props.config.format || getFormat(props.config.type, 'format')}
+            value-format={props.config.valueFormat || getFormat(props.config.type, 'valueFormat')}
+            disabled-date={props.config.disabledDate || disabledDateEnd}
 
-          /** ant-design-vue && ele 统一封装 - start */
-          type={removerRange(props.config.type) || 'date'}   /** ele 专有属性*/
-          picker={removerRange(props.config.type) || 'date'}   /** ant-design-vue专有属性*/
-          clearable={props.config.clearable !== false} // ele 特有属性
-          allowClear={props.config.allowClear ?? props.config.clearable !== false} // ant-design-vue特有属性
-          /** ant-design-vue && ele 统一封装 - end */
+            /** ant-design-vue && ele 统一封装 - start */
+            type={removerRange(props.config.type) || 'date'}   /** ele 专有属性*/
+            picker={removerRange(props.config.type) || 'date'}   /** ant-design-vue专有属性*/
+            clearable={props.config.clearable !== false} // ele 特有属性
+            allowClear={props.config.allowClear ?? props.config.clearable !== false} // ant-design-vue特有属性
+            /** ant-design-vue && ele 统一封装 - end */
 
-          {...props.config.nativeProps}
-          onChange={updateEndValue}
-        />
+            {...props.config.nativeProps}
+            onChange={updateEndValue}
+          />
+        </formItem>
       </div>
     }
   },

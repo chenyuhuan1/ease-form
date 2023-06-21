@@ -31,7 +31,7 @@ export default defineComponent({
       let cloneValue = value
       
       // ant-Design-vue 无input事件，value获取到的是原生input事件的e
-      if (window.uiLanguage === CustomDynamicComponent.antLanguage) {
+      if (CustomDynamicComponent.language === CustomDynamicComponent.antLanguage) {
         cloneValue = ((value as InputEvent).target as HTMLInputElement).value
       }
 

@@ -300,7 +300,7 @@ export default defineComponent({
                             '100px'
                           }
                           label={item.label}
-                          prop={window.uiLanguage === CustomDynamicComponent.antLanguage ? undefined : item.prop}
+                          prop={CustomDynamicComponent.language === CustomDynamicComponent.antLanguage ? undefined : item.prop}
                           name={item.prop}
                         >
                           {

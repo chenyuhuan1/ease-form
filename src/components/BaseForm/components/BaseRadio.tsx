@@ -58,7 +58,7 @@ export default defineComponent({
       let cloneValue = value
 
       // ant-Design-vue change返回的是 e:Event 对象
-      if (window.uiLanguage === CustomDynamicComponent.antLanguage) {
+      if (CustomDynamicComponent.language === CustomDynamicComponent.antLanguage) {
         cloneValue = ((value as Event).target as HTMLInputElement).value
       }
 
@@ -72,7 +72,7 @@ export default defineComponent({
     }
 
     return () => {
-      const componentInstance = props.config.showType === 'button'  && window.uiLanguage === CustomDynamicComponent.eleLanguage  ? dynamicRadioButton : dynamicRadio
+      const componentInstance = props.config.showType === 'button'  && CustomDynamicComponent.language === CustomDynamicComponent.eleLanguage  ? dynamicRadioButton : dynamicRadio
       return <div class={['BaseRadio', styles.width100]}>
         <dynamicRadioGroup
           loading={optionsLoading.value}

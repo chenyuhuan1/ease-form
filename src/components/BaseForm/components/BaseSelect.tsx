@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-12-15 17:30:23
- * @LastEditTime: 2023-06-13 10:08:31
+ * @LastEditTime: 2023-06-20 13:50:13
  * @LastEditors: 陈宇环
  * @Description:
  */
@@ -136,7 +136,7 @@ export default defineComponent({
 
           /** ele 特有属性-start */
           remote={props.config.remote === true}
-          remote-method={remoteMethod}
+          remote-method={props.config.remote === true ? remoteMethod : undefined}
           collapse-tags={props.config.collapseTags !== false}
           collapse-tags-tooltip={props.config.collapseTagsTooltip !== false}
           multiple-limit={props.config.multipleLimit ? props.config.multipleLimit : 0}
