@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-12-20 17:13:23
- * @LastEditTime: 2023-06-14 10:31:46
+ * @LastEditTime: 2023-06-26 14:53:57
  * @LastEditors: 陈宇环
  * @Description: 表单组件
  */
@@ -228,10 +228,12 @@ export default defineComponent({
     }
 
     const resetFn = async() => {
-      emit('reset')
-      cloneConfig.resetFn && cloneConfig.resetFn()
       ruleFormRef.value.resetFields()
       updateModelValue()
+      setTimeout(() => { // 避免在resetFn方法/reset事件中设置没有resetFields的字段，如prorEnd中的字段会失败问题
+        emit('reset')
+        cloneConfig.resetFn && cloneConfig.resetFn()
+      })
     }
     expose({ validate, resetFields, clearValidate, scrollToField, validateField, resetFn })
 

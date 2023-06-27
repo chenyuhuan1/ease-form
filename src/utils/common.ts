@@ -3,19 +3,11 @@ import dayjs from 'dayjs'
 // sessionStorage
 export const session = function(key: string, value?: any): any {
   // debugger
-  // eslint-disable-next-line no-void
   if (value === void 0) {
-    const lsVal = sessionStorage.getItem(key)
-    if (lsVal && lsVal.indexOf('autostringify-') === 0) {
-      return JSON.parse(lsVal.split('autostringify-')[1])
-    } else {
-      return lsVal
-    }
+    const lsVal:string = sessionStorage.getItem(key) as string
+    return JSON.parse(lsVal)
   }
-  if (typeof value === 'object' || Array.isArray(value)) {
-    return sessionStorage.setItem(key, 'autostringify-' + JSON.stringify(value))
-  }
-  return sessionStorage.setItem(key, value)
+  return sessionStorage.setItem(key, JSON.stringify(value))
 }
 
 export function isObject(obj: unknown): boolean {
@@ -60,11 +52,8 @@ export function $download(params: {filetype?: string, title: string, data: any, 
 
 // 获取字典
 export function getDicByKey(key: string):any {
-  const dic = session('sysCodeList')?.find((item: any) => item.bizTypeCode === key)
-  if (dic) {
-    return dic.codeValues
-  }
-  return []
+  const dic = session('sysCodeList')?.[key]
+  return dic ?? null
 }
 
 // 树遍历
