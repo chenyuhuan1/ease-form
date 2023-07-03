@@ -1,7 +1,10 @@
-import BsForm from '../../../src/components/BaseForm/index'
+import form from '../../../src/components/BsForm/index'
 
-BsForm.install = function(Vue) {
-  Vue.component(BsForm.name, BsForm)
+form.install = function(Vue: any) {
+  Vue.component(form.name, form)
 }
 
-export default BsForm
+export default form
+export const BsForm = form
+
+export * from '../../../src/components/BsForm/interface/index'

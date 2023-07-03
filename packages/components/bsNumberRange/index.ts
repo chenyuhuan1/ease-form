@@ -1,14 +1,11 @@
-/*
- * @Author: 陈宇环
- * @Date: 2023-05-26 11:48:21
- * @LastEditTime: 2023-05-30 15:06:54
- * @LastEditors: 陈宇环
- * @Description:
- */
-import BsNumberRange from '../../../src/components/BaseForm/components/BaseNumberRange'
+import numberRange from '../../../src/components/BsForm/components/BsNumberRange'
 
-BsNumberRange.install = function(Vue) {
-  Vue.component(BsNumberRange.name, BsNumberRange)
+numberRange.install = function(Vue: any) {
+  Vue.component(numberRange.name, numberRange)
 }
 
-export default BsNumberRange
+export default numberRange
+
+export const BsNumberRange = numberRange
+
+export * from '../../../src/components/BsForm/interface/index'

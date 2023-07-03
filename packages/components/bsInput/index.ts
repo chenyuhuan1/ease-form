@@ -1,7 +1,11 @@
-import BsInput from '../../../src/components/BaseForm/components/BaseInput'
+import input from '../../../src/components/BsForm/components/BsInput'
 
-BsInput.install = function(Vue) {
-  Vue.component(BsInput.name, BsInput)
+input.install = function(Vue: any) {
+  Vue.component(input.name, input)
 }
 
-export default BsInput
+export default input
+
+export const BsInput = input
+
+export * from '../../../src/components/BsForm/interface/index'

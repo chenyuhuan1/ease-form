@@ -1,14 +1,11 @@
-/*
- * @Author: 陈宇环
- * @Date: 2023-05-26 11:48:21
- * @LastEditTime: 2023-06-14 11:07:07
- * @LastEditors: 陈宇环
- * @Description:
- */
-import BsText from '../../../src/components/BaseForm/components/BaseText'
+import text from '../../../src/components/BsForm/components/BsText'
 
-BsText.install = function(Vue) {
-  Vue.component(BsText.name, BsText)
+text.install = function(Vue: any) {
+  Vue.component(text.name, text)
 }
 
-export default BsText
+export default text
+
+export const BsText = text
+
+export * from '../../../src/components/BsForm/interface/index'

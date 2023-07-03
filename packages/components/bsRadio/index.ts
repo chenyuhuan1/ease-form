@@ -1,7 +1,11 @@
-import BsRadio from '../../../src/components/BaseForm/components/BaseRadio'
+import radio from '../../../src/components/BsForm/components/BsRadio'
 
-BsRadio.install = function(Vue) {
-  Vue.component(BsRadio.name, BsRadio)
+radio.install = function(Vue: any) {
+  Vue.component(radio.name, radio)
 }
 
-export default BsRadio
+export default radio
+
+export const BsRadio = radio
+
+export * from '../../../src/components/BsForm/interface/index'

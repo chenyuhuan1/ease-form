@@ -1,14 +1,18 @@
 /*
  * @Author: 陈宇环
  * @Date: 2023-05-26 11:48:21
- * @LastEditTime: 2023-05-26 11:50:06
+ * @LastEditTime: 2023-07-03 15:21:28
  * @LastEditors: 陈宇环
  * @Description:
  */
-import BsDateRange from '../../../src/components/BaseForm/components/BaseDateRange'
+import dateRange from '../../../src/components/BsForm/components/BsDateRange'
 
-BsDateRange.install = function(Vue) {
-  Vue.component(BsDateRange.name, BsDateRange)
+dateRange.install = function(Vue: any) {
+  Vue.component(dateRange.name, dateRange)
 }
 
-export default BsDateRange
+export default dateRange
+
+export const BsDateRange = dateRange
+
+export * from '../../../src/components/BsForm/interface/index'

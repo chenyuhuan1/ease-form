@@ -1,7 +1,7 @@
 <!--
  * @Author: 陈宇环
  * @Date: 2023-03-03 17:00:45
- * @LastEditTime: 2023-06-21 10:16:28
+ * @LastEditTime: 2023-07-03 16:07:06
  * @LastEditors: 陈宇环
  * @Description: 组件示例页面
 -->
@@ -9,9 +9,9 @@
   <FullPageLayout>
     <template #autoStrut>
       home: {{ form }}
-      <BaseForm
+      <BsForm
         v-model="form"
-        class="BaseForm"
+        class="BsForm"
         :config="config"
       >
         <template #slo>
@@ -20,13 +20,13 @@
             placeholder=""
           />
         </template>
-      </BaseForm>
+      </BsForm>
       <el-button
         type="primary"
         size="default"
         @click="set"
       />
-      <BaseButtons
+      <BsButtons
         :buttons="[
           {
             text: '新增',
@@ -44,7 +44,7 @@
       />
     </template>
     <template #flex1>
-      <BaseTable
+      <BsTable
         :columns="thead"
         :load-data="loadData2"
         :row-selection="rowSelection"
@@ -60,16 +60,16 @@
 
 <script lang="tsx" setup>
 import { reactive, ref } from 'vue'
-import BaseForm, { columnsBase } from '@/components/BaseForm/index'
-import BaseTable, {
+import BsForm, { columnsBase } from '@/components/BsForm/index'
+import BsTable, {
   resultInt,
-  theadConfigFace,
+  columnsConfigFace,
   loadDataFace,
   rowSelectionFace,
-} from '@/components/BaseTable/index' // @ is an alias to /src
+} from '@/components/BsTable/index' // @ is an alias to /src
 import FullPageLayout from '@/layout/FullPageLayout.vue'
 import { ElButton, ElInput } from 'element-plus'
-import BaseButtons from './components/BaseButtons'
+import BsButtons from './components/BsButtons'
 
 const opFn = () => {
   console.log(123123)
@@ -217,6 +217,9 @@ const config = reactive<{
       type: 'dateRange',
       placeholder: '请输入日期范围1',
       required: true,
+      change(e: any) {
+        console.log(e)
+      },
       // disabledDate: (date: any) => {
       //   return +date > +new Date()
       // },
@@ -323,7 +326,7 @@ const set = () => {
   // form.value.date2 = '2020-08-08 09:15:15'
 }
 
-const thead = ref<theadConfigFace>([
+const thead = ref<columnsConfigFace>([
   { type: 'index', fixed: 'left' },
   { prop: 'id', label: 'id', width: 100, align: 'left', fixed: 'left' },
   { prop: 'createTime', label: '创建时间', width: 100 },

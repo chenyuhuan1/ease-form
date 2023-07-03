@@ -1,7 +1,10 @@
-import BsTable from '../../../src/components/BaseTable/index'
+import table from '../../../src/components/BsTable/index'
 
-BsTable.install = function(Vue) {
-  Vue.component(BsTable.name, BsTable)
+table.install = function(Vue: any) {
+  Vue.component(table.name, BsTable)
 }
 
-export default BsTable
+export default table
+export const BsTable = table
+
+export * from '../../../src/components/BsTable/interface/index'

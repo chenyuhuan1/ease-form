@@ -1,14 +1,18 @@
 /*
  * @Author: 陈宇环
  * @Date: 2023-05-26 11:48:21
- * @LastEditTime: 2023-05-26 11:48:41
+ * @LastEditTime: 2023-07-03 15:20:37
  * @LastEditors: 陈宇环
  * @Description:
  */
-import BsDate from '../../../src/components/BaseForm/components/BaseDate'
+import date from '../../../src/components/BsForm/components/BsDate'
 
-BsDate.install = function(Vue) {
-  Vue.component(BsDate.name, BsDate)
+date.install = function(Vue: any) {
+  Vue.component(date.name, date)
 }
 
-export default BsDate
+export default date
+
+export const BsDate = date
+
+export * from '../../../src/components/BsForm/interface/index'

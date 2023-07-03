@@ -1,14 +1,10 @@
-/*
- * @Author: 陈宇环
- * @Date: 2023-05-26 11:51:59
- * @LastEditTime: 2023-06-14 11:06:15
- * @LastEditors: 陈宇环
- * @Description:
- */
-import BsButtons from '../../../src/components/BaseButtons/index'
+import button from '../../../src/components/BsButtons/index'
 
-BsButtons.install = function(Vue) {
-  Vue.component(BsButtons.name, BsButtons)
+button.install = function(Vue: any) {
+  Vue.component(button.name, button)
 }
 
-export default BsButtons
+export default button
+export const BsButtons = button
+
+export * from '../../../src/components/BsButtons/interface/index'

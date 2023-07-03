@@ -1,7 +1,11 @@
-import BsNumber from '../../../src/components/BaseForm/components/BaseNumber'
+import number from '../../../src/components/BsForm/components/BsNumber'
 
-BsNumber.install = function(Vue) {
-  Vue.component(BsNumber.name, BsNumber)
+number.install = function(Vue: any) {
+  Vue.component(number.name, number)
 }
 
-export default BsNumber
+export default number
+
+export const BsNumber = number
+
+export * from '../../../src/components/BsForm/interface/index'

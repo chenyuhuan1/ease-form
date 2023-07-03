@@ -1,14 +1,11 @@
-/*
- * @Author: 陈宇环
- * @Date: 2023-05-26 11:48:21
- * @LastEditTime: 2023-05-26 11:49:07
- * @LastEditors: 陈宇环
- * @Description:
- */
-import BsSelect from '../../../src/components/BaseForm/components/BaseSelect'
+import select from '../../../src/components/BsForm/components/BsSelect'
 
-BsSelect.install = function(Vue) {
-  Vue.component(BsSelect.name, BsSelect)
+select.install = function(Vue: any) {
+  Vue.component(select.name, select)
 }
 
-export default BsSelect
+export default select
+
+export const BsSelect = select
+
+export * from '../../../src/components/BsForm/interface/index'

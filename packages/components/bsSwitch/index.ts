@@ -1,14 +1,11 @@
-/*
- * @Author: 陈宇环
- * @Date: 2023-05-26 11:48:21
- * @LastEditTime: 2023-06-14 11:07:00
- * @LastEditors: 陈宇环
- * @Description:
- */
-import BsSwitch from '../../../src/components/BaseForm/components/BaseSwitch'
+import switchC from '../../../src/components/BsForm/components/BsSwitch'
 
-BsSwitch.install = function(Vue) {
-  Vue.component(BsSwitch.name, BsSwitch)
+switchC.install = function(Vue: any) {
+  Vue.component(switchC.name, switchC)
 }
 
-export default BsSwitch
+export default switchC
+
+export const BsSwitch = switchC
+
+export * from '../../../src/components/BsForm/interface/index'

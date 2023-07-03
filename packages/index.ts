@@ -28,7 +28,7 @@ const components = [
   BsTable,
   BsButtons,
 ] // 组件集合
-const install = function(Vue) {
+const install = function(Vue: any) {
   // 注册所有的组件
   components.forEach((item) => {
     Vue.component(item.name, item)
@@ -38,5 +38,20 @@ const install = function(Vue) {
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
+
+export * from './components/bsForm'
+export * from './components/bsCascader'
+export * from './components/bsCheckbox'
+export * from './components/bsDate'
+export * from './components/bsDateRange'
+export * from './components/bsInput'
+export * from './components/bsNumber'
+export * from './components/bsNumberRange'
+export * from './components/bsRadio'
+export * from './components/bsSelect'
+export * from './components/bsSwitch'
+export * from './components/bsText'
+export * from './components/bsTable'
+export * from './components/bsButtons'
 
 export default install

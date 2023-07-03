@@ -3,13 +3,14 @@
   "version": "0.1.2",
   "private": false,
   "main": "lib/index/index.js",
+  "types": "types/packages/index.d.ts",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "docs": "typedoc --out docs ./src/components/BaseForm/interface/index.ts ./src/components/BaseTable/interface/index.ts ./src/components/BaseButtons/interface/index.ts",
-    "lib": "vue-cli-service build --mode npm"
+    "docs": "typedoc --out docs ./src/components/BsForm/interface/index.ts ./src/components/BsTable/interface/index.ts ./src/components/BsButtons/interface/index.ts",
+    "lib": "tsc && vue-cli-service build --mode npm"
   },
   "dependencies": {
     "core-js": "^3.8.3",
