@@ -1,7 +1,7 @@
 <!--
  * @Author: 陈宇环
  * @Date: 2023-03-03 17:00:45
- * @LastEditTime: 2023-07-03 16:07:06
+ * @LastEditTime: 2023-07-06 10:20:19
  * @LastEditors: 陈宇环
  * @Description: 组件示例页面
 -->
@@ -60,9 +60,8 @@
 
 <script lang="tsx" setup>
 import { reactive, ref } from 'vue'
-import BsForm, { columnsBase } from '@/components/BsForm/index'
+import BsForm, { formConfig } from '@/components/BsForm/index'
 import BsTable, {
-  resultInt,
   columnsConfigFace,
   loadDataFace,
   rowSelectionFace,
@@ -84,13 +83,7 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
     callback()
   }
 }
-const config = reactive<{
-  colNum?: number
-  columns: columnsBase[]
-  labelWidth?: string
-  disabled: boolean
-  loading: boolean
-}>({
+const config = reactive<formConfig>({
   // colNum: 6,
   columns: [
     {
@@ -405,7 +398,7 @@ const loadData2: loadDataFace = async({
   pageSize: number
 }) => {
   console.log(pageIndex, pageSize)
-  return new Promise<resultInt>((resolve) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
         success: true,

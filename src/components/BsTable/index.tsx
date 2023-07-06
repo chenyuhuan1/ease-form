@@ -1,13 +1,13 @@
 /*
  * @Author: 陈宇环
  * @Date: 2022-04-08 13:49:50
- * @LastEditTime: 2023-07-03 15:47:21
+ * @LastEditTime: 2023-07-05 14:44:49
  * @LastEditors: 陈宇环
  * @Description:
  */
 import { defineComponent, toRefs, reactive, ref, onMounted, PropType, watch } from 'vue'
 import BsTableItem from './BsTableItem'
-import { columnsItemConfig, loadDataFace, pagingConfigFace, tableConfigFace } from './interface/index'
+import { columnsConfigFace, columnsItemConfig, loadDataFace, pagingConfigFace, tableConfigFace } from './interface/index'
 import styles from '@/components/BsTable/style.module.scss'
 import { CustomDynamicComponent } from '../CustomDynamicComponent'
 
@@ -28,7 +28,7 @@ export default defineComponent({
       },
     },
     columns: {
-      type: Array as PropType<columnsItemConfig[]>,
+      type: Array as PropType<columnsConfigFace>,
       required: true,
       default() {
         return []

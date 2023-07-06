@@ -1,7 +1,7 @@
 /*
  * @Author: 陈宇环
  * @Date: 2023-05-26 10:50:26
- * @LastEditTime: 2023-06-14 10:54:39
+ * @LastEditTime: 2023-07-06 10:52:25
  * @LastEditors: 陈宇环
  * @Description:
  */
@@ -31,7 +31,7 @@ function upperCasetoLine(str) {
   return temp
 }
 
-// 将packages目录下的子目录组成如下格式数组'ease-form': resolve('packages/components/easeForm.ts')
+// 将packages目录下的子目录组成如下格式数组'bs-form': resolve('packages/components/easeForm.ts')
 function getComponentEntries(path) {
   const files = fs.readdirSync(resolve(path))
   const componentEntries = files.reduce((fileObj, item) => {
